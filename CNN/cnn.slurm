@@ -29,11 +29,11 @@
 
 ## Load the relevant modules needed for the job
 module load keras/2.2.0-py36
-module load OpenCV/3.1.0
 
 ## Setup the environment
-export PYTHONPATH=$HOME/python/models-r1.8.0-packages:$PYTHONPATH
-export PYTHONPATH=$HOME/models:$PYTHONPATH
+simpsons
+export PYTHONPATH=$HOME/simpsons/python
+export PYTHONPATH=$HOME/simpsons/simpsons-classification:$PYTHONPATH
 
 ## Start the job
 python3 simpsons.py

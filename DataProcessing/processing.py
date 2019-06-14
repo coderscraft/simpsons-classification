@@ -11,11 +11,14 @@ def load_pictures(argo):
         labels = []
         print(os.getcwd())
         path = os.path.abspath(os.path.join(os.getcwd(),'Data/SampleData')) + '/%s/*'
+        print(path)
         if argo:
                 path = ''
         for k, char in map_characters.items():
                 pictures = [k for k in glob.glob(path % char)]       
                 nb_pic = len(pictures)
+                print(char)
+                print(nb_pic)
                 # if len(pictures) > 0:
                 #     print(k)
                 #     print(char)
