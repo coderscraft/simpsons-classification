@@ -36,4 +36,4 @@ export PYTHONPATH=$HOME/simpsons/python
 export PYTHONPATH=$HOME/simpsons/simpsons-classification:$PYTHONPATH
 
 ## Start the job
-python3 simpsons.py
+python3 simpsons.py true

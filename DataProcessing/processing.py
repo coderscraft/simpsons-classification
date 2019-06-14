@@ -9,11 +9,11 @@ import os.path
 def load_pictures(argo):
         pics = []
         labels = []
-        print(os.getcwd())
+        print(argo, os.getcwd())
         path = os.path.abspath(os.path.join(os.getcwd(),'Data/SampleData')) + '/%s/*'
-        print(path)
         if argo:
-                path = ''
+                path = '/scratch/rrane/SampleData/%s/*'
+        print(path)
         for k, char in map_characters.items():
                 pictures = [k for k in glob.glob(path % char)]       
                 nb_pic = len(pictures)
@@ -47,4 +47,4 @@ def load_data_split(argo=False):
         print("Test", X_test.shape, y_test.shape)
         return X_train, X_test, y_train, y_test
 
-load_data_split()
+# load_data_split()
