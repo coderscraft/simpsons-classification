@@ -1,0 +1,14 @@
+---For virtual env
+
+virtualenv --system-site-packages -p python3 ./venv
+source ./venv/bin/activate  # sh, bash, ksh, or zsh
+pip install --upgrade pip
+pip list
+pip install --upgrade tensorflow
+
+pip install opencv-python
+pip install numpy scipy scikit-learn
+pip install matplotlib
+pip install scikit-image
+deactivate
+
