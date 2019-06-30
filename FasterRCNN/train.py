@@ -1,5 +1,5 @@
 # how to run locally
-# python FasterRCNN/train_frcnn.py -p /Users/ravirane/Desktop/GMU/DAEN690/project/
+# python FasterRCNN/train.py -p /Users/ravirane/Desktop/GMU/DAEN690/project/
 from __future__ import division
 import random
 import pprint
@@ -77,8 +77,8 @@ model_rpn.compile(optimizer=Adam(lr=1e-4), loss=[losses.rpn_loss_cls(num_anchors
 model_classifier.compile(optimizer=Adam(lr=1e-4), loss=[losses.class_loss_cls, losses.class_loss_regr(len(classes_count)-1)], metrics={'dense_class_{}'.format(len(classes_count)): 'accuracy'})
 model_all.compile(optimizer='sgd', loss='mae')
 
-epoch_length = 1000
-num_epochs = 2000
+epoch_length = 600
+num_epochs = 40
 iter_num = 0
 
 losses = np.zeros((epoch_length, 5))
