@@ -248,7 +248,7 @@ history = model.fit_generator(generator=train_generator,
                               validation_data=val_generator,
                               validation_steps=ceil(val_dataset_size/batch_size),
                               initial_epoch=initial_epoch)
-model.save_weights(model_path)
+model.save(model_path)
 
 with open(train_history, 'wb') as file_pi:
     pickle.dump(history.history,file_pi)
