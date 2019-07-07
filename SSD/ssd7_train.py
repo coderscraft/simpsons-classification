@@ -138,7 +138,7 @@ print("Number of images in the validation dataset:\t{:>6}".format(val_dataset_si
 
 # 3: Set the batch size.
 
-batch_size = 16
+batch_size = 40
 
 # 4: Define the image processing chain.
 
