@@ -14,5 +14,6 @@ pip install opencv-python
 pip install numpy scipy scikit-learn
 pip install matplotlib
 pip install scikit-image
+pip install tqdm
 deactivate
 
