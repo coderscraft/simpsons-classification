@@ -1,3 +1,5 @@
+# how to run locally
+# python FasterRCNN/test.py -p /Users/ravirane/Desktop/GMU/DAEN690/project/
 import os
 import cv2
 import numpy as np
@@ -200,31 +202,31 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-p", "--path", dest="test_path", help="Path to test data.")
     (options, args) = parser.parse_args()
+    # options.test_path = '/Users/ravirane/Desktop/GMU/DAEN690/project/'
     if not options.test_path:   # if filename is not given
         parser.error('Error: path to test data must be specified. Pass --path to command line')
     os.chdir(options.test_path)
     ## Load config object
     with open('./config.pickle', 'rb') as f_in:
         C = pickle.load(f_in)
-
     # turn off any data augmentation at test time
     C.use_horizontal_flips = False
     C.use_vertical_flips = False
     C.rot_90 = False
     model_rpn, model_classifier, model_classifier_only = get_models(C)
-    # class_mapping = C.class_mapping
-    # if 'bg' not in class_mapping:
-    #     class_mapping['bg'] = len(class_mapping)
-    # class_mapping = {v: k for k, v in class_mapping.items()}
-    # class_to_color = {class_mapping[v]: np.random.randint(0, 255, 3) for v in class_mapping}
+    class_mapping = C.class_mapping
+    if 'bg' not in class_mapping:
+        class_mapping['bg'] = len(class_mapping)
+    class_mapping = {v: k for k, v in class_mapping.items()}
+    class_to_color = {class_mapping[v]: np.random.randint(0, 255, 3) for v in class_mapping}
 
-    # for idx, img_name in enumerate(sorted(os.listdir(options.test_path))):
-    #     if not img_name.lower().endswith(('.bmp', '.jpeg', '.jpg', '.png', '.tif', '.tiff')):
-    #         continue
-    #     print(img_name)
-    #     filepath = os.path.join(options.test_path,img_name)
-    #     img = cv2.imread(filepath)
-    #     st = time.time()
-    #     img = detect_predict(img, C, model_rpn, model_classifier, model_classifier_only, class_mapping, class_to_color, True)
-    #     print('Elapsed time = {}'.format(time.time() - st))
-    #     cv2.imwrite('./results_test/result_{}.png'.format(img_name.replace('.png', '')),img)
+    for idx, img_name in enumerate(sorted(os.listdir('./test'))):
+        if not img_name.lower().endswith(('.bmp', '.jpeg', '.jpg', '.png', '.tif', '.tiff')):
+            continue
+        print(img_name)
+        filepath = os.path.join('./test',img_name)
+        img = cv2.imread(filepath)
+        st = time.time()
+        img = detect_predict(img, C, model_rpn, model_classifier, model_classifier_only, class_mapping, class_to_color, True)
+        print('Elapsed time = {}'.format(time.time() - st))
+        cv2.imwrite('./results_test/result_{}.png'.format(img_name.replace('.png', '')),img)

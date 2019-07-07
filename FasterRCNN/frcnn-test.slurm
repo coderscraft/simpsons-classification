@@ -3,7 +3,7 @@
 ## Specify the name for your job, this is the job name by which Slurm will
 ## refer to your job.  This can be different from the name of your executable
 ## or the name of your script file.
-#SBATCH --job-name FRCNN-Simpsons
+#SBATCH --job-name FRCNN-Simpsons-test
 
 #SBATCH --qos normal  # normal,cdsqos,phyqos,csqos,statsqos,hhqos,gaqos,esqos
 #SBATCH -p gpuq       # partition (queue): all-LoPri, all-HiPri,
@@ -31,9 +31,8 @@
 module load keras/2.2.0-py36
 
 ## Setup the environment
-simpsons
 export PYTHONPATH=$HOME/simpsons/python
 export PYTHONPATH=$HOME/simpsons/simpsons-classification:$PYTHONPATH
 
 ## Start the job
-python3 train.py -p /scratch/rrane/FasterRCNN/data/
+python3 test.py -p /scratch/rrane/FasterRCNN/data/
