@@ -35,4 +35,4 @@ export PYTHONPATH=$HOME/simpsons/python
 export PYTHONPATH=$HOME/simpsons/simpsons-classification:$PYTHONPATH
 
 ## Start the job
-python3 train.py -p /scratch/rrane/FasterRCNN/data/
+python3 ssd7_train.py -p /scratch/rrane/FasterRCNN/data/
