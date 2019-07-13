@@ -26,11 +26,12 @@ from data_generator.object_detection_2d_misc_utils import apply_inverse_transfor
 from data_generator.data_augmentation_chain_variable_input_size import DataAugmentationVariableInputSize
 from data_generator.data_augmentation_chain_constant_input_size import DataAugmentationConstantInputSize
 from data_generator.data_augmentation_chain_original_ssd import SSDDataAugmentation
+from data_generator.object_detection_2d_geometric_ops import Resize
 
 from data_generator.parser import buildData
 
-model_path = './ssd7_model.hdf5'
-train_history = "ssd7_history.pickle"
+model_path = './ssd/ssd7_model.hdf5'
+train_history = "./ssd/ssd7_history.pickle"
 
 # img_height = 100 # Height of the input images
 # img_width = 100 # Width of the input images
@@ -50,6 +51,13 @@ normalize_coords = True # Whether or not the model is supposed to use coordinate
 parser = OptionParser()
 parser.add_option("-p", "--path", dest="train_path", help="Path to training data.")
 
+batch_size = 20
+# TODO: Set the epochs to train for.
+# If you're resuming a previous training, set `initial_epoch` and `final_epoch` accordingly.
+initial_epoch   = 0
+final_epoch     = 30
+steps_per_epoch = 500
+
 (options, args) = parser.parse_args()
 # options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/project/'
 # options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/data/the-simpsons-characters-dataset/'
@@ -57,9 +65,11 @@ os.chdir(options.train_path)
 if not options.train_path:   # if filename is not given
     parser.error('Error: path to training data must be specified. Pass --path to command line')
 
-# 1: Build the Keras model
+if not os.path.exists('./ssd'):
+    os.makedirs('./ssd')
 
 img_width, img_height = buildData()
+resize = Resize(height=img_height, width=img_width)
 print(img_width, img_height)
 
 K.clear_session() # Clear previous models from memory.
@@ -99,8 +109,8 @@ val_dataset = DataGenerator(load_images_into_memory=False, hdf5_dataset_path=Non
 images_dir = './'
 
 # Ground truth
-train_labels_filename = './train_list.csv'
-val_labels_filename   = './valid_list.csv'
+train_labels_filename = 'train_list.csv'
+val_labels_filename   = 'valid_list.csv'
 
 train_dataset.parse_csv(images_dir=images_dir,
                         labels_filename=train_labels_filename,
@@ -113,12 +123,12 @@ val_dataset.parse_csv(images_dir=images_dir,
                       include_classes='all')
 
 
-train_dataset.create_hdf5_dataset(file_path='dataset_simpsons_train.h5',
+train_dataset.create_hdf5_dataset(file_path='./ssd/dataset_simpsons_train.h5',
                                   resize=(img_width, img_height),
                                   variable_image_size=True,
                                   verbose=True)
 
-val_dataset.create_hdf5_dataset(file_path='dataset_simpsons_val.h5',
+val_dataset.create_hdf5_dataset(file_path='./ssd/dataset_simpsons_val.h5',
                                 resize=(img_width, img_height),
                                 variable_image_size=True,
                                 verbose=True)
@@ -134,11 +144,6 @@ val_dataset_size   = val_dataset.get_dataset_size()
 
 print("Number of images in the training dataset:\t{:>6}".format(train_dataset_size))
 print("Number of images in the validation dataset:\t{:>6}".format(val_dataset_size))
-
-
-# 3: Set the batch size.
-
-batch_size = 40
 
 # 4: Define the image processing chain.
 
@@ -185,7 +190,7 @@ ssd_input_encoder = SSDInputEncoder(img_height=img_height,
 
 train_generator = train_dataset.generate(batch_size=batch_size,
                                          shuffle=True,
-                                         transformations=[data_augmentation_chain],
+                                         transformations=[data_augmentation_chain, resize],
                                          label_encoder=ssd_input_encoder,
                                          returns={'processed_images',
                                                   'encoded_labels'},
@@ -193,7 +198,7 @@ train_generator = train_dataset.generate(batch_size=batch_size,
 
 val_generator = val_dataset.generate(batch_size=batch_size,
                                      shuffle=False,
-                                     transformations=[],
+                                     transformations=[resize],
                                      label_encoder=ssd_input_encoder,
                                      returns={'processed_images',
                                               'encoded_labels'},
@@ -202,13 +207,13 @@ val_generator = val_dataset.generate(batch_size=batch_size,
 # Define model callbacks.
 
 # TODO: Set the filepath under which you want to save the weights.
-# model_checkpoint = ModelCheckpoint(filepath='ssd7_epoch-{epoch:02d}_loss-{loss:.4f}_val_loss-{val_loss:.4f}.h5',
-#                                    monitor='val_loss',
-#                                    verbose=1,
-#                                    save_best_only=True,
-#                                    save_weights_only=False,
-#                                    mode='auto',
-#                                    period=1)
+model_checkpoint = ModelCheckpoint(filepath='./ssd/ssd7_epoch-{epoch:02d}_loss-{loss:.4f}_val_loss-{val_loss:.4f}.h5',
+                                   monitor='val_loss',
+                                   verbose=1,
+                                   save_best_only=True,
+                                   save_weights_only=False,
+                                   mode='auto',
+                                   period=1)
 
 # csv_logger = CSVLogger(filename='ssd7_training_log.csv',
 #                        separator=',',
@@ -232,14 +237,9 @@ reduce_learning_rate = ReduceLROnPlateau(monitor='val_loss',
 #              early_stopping,
 #              reduce_learning_rate]
 
-callbacks = [early_stopping,
+callbacks = [model_checkpoint,
+             early_stopping,
              reduce_learning_rate]
-
-# TODO: Set the epochs to train for.
-# If you're resuming a previous training, set `initial_epoch` and `final_epoch` accordingly.
-initial_epoch   = 0
-final_epoch     = 40
-steps_per_epoch = 1000
 
 history = model.fit_generator(generator=train_generator,
                               steps_per_epoch=steps_per_epoch,
@@ -249,6 +249,7 @@ history = model.fit_generator(generator=train_generator,
                               validation_steps=ceil(val_dataset_size/batch_size),
                               initial_epoch=initial_epoch)
 model.save(model_path)
+# print(model.to_json())
 
 with open(train_history, 'wb') as file_pi:
     pickle.dump(history.history,file_pi)
