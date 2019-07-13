@@ -35,4 +35,4 @@ export PYTHONPATH=$HOME/simpsons/python
 export PYTHONPATH=$HOME/simpsons/simpsons-classification:$PYTHONPATH
 
 ## Start the job
-python3 search-train.slurm -p /scratch/rrane/data/smalldata/
+python3 processor.py -p /scratch/rrane/data/smalldata/
