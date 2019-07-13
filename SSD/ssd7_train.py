@@ -38,7 +38,7 @@ train_history = "./ssd/ssd7_history.pickle"
 img_channels = 3 # Number of color channels of the input images
 intensity_mean = 127.5 # Set this to your preference (maybe `None`). The current settings transform the input pixel values to the interval `[-1,1]`.
 intensity_range = 127.5 # Set this to your preference (maybe `None`). The current settings transform the input pixel values to the interval `[-1,1]`.
-n_classes = 20 # Number of positive classes
+n_classes = 8 # Number of positive classes
 scales = [0.08, 0.16, 0.32, 0.64, 0.96] # An explicit list of anchor box scaling factors. If this is passed, it will override `min_scale` and `max_scale`.
 aspect_ratios = [0.5, 1.0, 2.0] # The list of aspect ratios for the anchor boxes
 two_boxes_for_ar1 = True # Whether or not you want to generate two anchor boxes for aspect ratio 1
@@ -59,7 +59,7 @@ final_epoch     = 30
 steps_per_epoch = 500
 
 (options, args) = parser.parse_args()
-# options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/project/'
+# options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/ssd_data/'
 # options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/data/the-simpsons-characters-dataset/'
 os.chdir(options.train_path)
 if not options.train_path:   # if filename is not given

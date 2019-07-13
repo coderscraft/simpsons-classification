@@ -6,17 +6,12 @@ import os.path
 import csv
 
 
-map_characters = {1: 'abraham_grampa_simpson', 2: 'apu_nahasapeemapetilon', 3: 'bart_simpson', 
-        4: 'charles_montgomery_burns', 5: 'chief_wiggum', 6: 'comic_book_guy', 7: 'edna_krabappel', 
-        8: 'homer_simpson', 9: 'kent_brockman', 10: 'krusty_the_clown', 11: 'lisa_simpson', 
-        12: 'marge_simpson', 13: 'milhouse_van_houten', 14: 'moe_szyslak', 
-        15: 'ned_flanders', 16: 'nelson_muntz', 17: 'principal_skinner', 18: 'sideshow_bob', 19: 'agnes_skinner', 20: 'barney_gumble'}
+map_characters = {1: 'abraham_grampa_simpson', 2: 'bart_simpson', 
+        3: 'charles_montgomery_burns', 4: 'homer_simpson', 5: 'lisa_simpson', 
+        6: 'marge_simpson', 7: 'ned_flanders', 8: 'principal_skinner'}
 
-map_inrs = {'abraham_grampa_simpson': 1, 'apu_nahasapeemapetilon': 2, 'bart_simpson': 3, 
-        'charles_montgomery_burns': 4, 'chief_wiggum': 5, 'comic_book_guy': 6, 'edna_krabappel': 7, 
-        'homer_simpson': 8, 'kent_brockman': 9, 'krusty_the_clown': 10, 'lisa_simpson': 11, 
-        'marge_simpson': 12, 'milhouse_van_houten': 13, 'moe_szyslak': 14, 
-        'ned_flanders': 15, 'nelson_muntz': 16, 'principal_skinner': 17, 'sideshow_bob': 18, 'agnes_skinner': 19, 'barney_gumble': 20}
+map_inrs = {'abraham_grampa_simpson': 1, 'bart_simpson': 2, 'charles_montgomery_burns': 3,
+        'homer_simpson': 4, 'lisa_simpson': 5, 'marge_simpson': 6, 'ned_flanders': 7, 'principal_skinner': 8}
 
 def buildData():
     train_list = []
