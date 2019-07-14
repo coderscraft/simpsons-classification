@@ -6,6 +6,10 @@ import sys
 from optparse import OptionParser
 from featureExtractor import FeatureExtractor
 
+def remove_prefix(text, prefix):
+    if text.startswith(prefix):
+        return text[len(prefix):]
+    return text
 
 ROOT_DIR = os.path.abspath("./ImageSearch")
 sys.path.append(ROOT_DIR)
@@ -26,10 +30,9 @@ if not os.path.exists('./static'):
 fe = FeatureExtractor()
 featureMap = {}
 for img_path in sorted(glob.glob(options.train_path + '/characters/*/*.jpg')):
-    print(img_path)
-    fileName = os.path.splitext(os.path.basename(img_path))[0]
+    path = remove_prefix(img_path, options.train_path)
     img = Image.open(img_path)  # PIL image
     feature = fe.extract(img)
-    featureMap[fileName] = feature
+    featureMap[path] = feature
 feature_path = './static/features' + '.pkl'
 pickle.dump(featureMap, open(feature_path, 'wb'))
