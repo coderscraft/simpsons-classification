@@ -50,7 +50,8 @@ class FeatureExtractor:
         # self.model = model
         # self.opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
         # self.graph = tf.get_default_graph()
-        base_model = VGG16(weights='imagenet')
+        base_model = VGG16(weights=None)
+        base_model.load_weights('/scratch/rrane/data/vgg16_weights.h5')
         self.model = Model(inputs=base_model.input, outputs=base_model.get_layer('fc1').output)
         self.graph = tf.get_default_graph()
         
