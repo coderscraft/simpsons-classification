@@ -12,4 +12,4 @@ map_characters = {0: 'abraham_grampa_simpson', 1: 'apu_nahasapeemapetilon', 2: '
 
 num_classes = len(map_characters)
 
-input_shape = (pic_size, pic_size, 1)
+input_shape = (pic_size, pic_size, 3)

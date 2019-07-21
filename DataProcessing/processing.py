@@ -26,7 +26,7 @@ def load_pictures():
                 #     print(len(pictures))
                 #     print('------')
                 for pic in np.random.choice(pictures, nb_pic):
-                        a = cv2.imread(pic, 0)
+                        a = cv2.imread(pic, 1)
                         a = cv2.resize(a, (pic_size, pic_size))
                         # cv2.imshow('image',a)
                         # cv2.waitKey(0)
@@ -39,8 +39,8 @@ def load_data_split():
         X, y = load_pictures()
         y = keras.utils.to_categorical(y, num_classes)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
-        X_train = X_train.reshape(X_train.shape[0], pic_size, pic_size, 1)
-        X_test = X_test.reshape(X_test.shape[0], pic_size, pic_size, 1)
+        X_train = X_train.reshape(X_train.shape[0], pic_size, pic_size, 3)
+        X_test = X_test.reshape(X_test.shape[0], pic_size, pic_size, 3)
         X_train = X_train / 255.
         X_test = X_test / 255.
         print("Train", X_train.shape, y_train.shape)

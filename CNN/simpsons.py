@@ -104,7 +104,7 @@ def lr_schedule(epoch):
 
 def run_model():
         X_train, X_test, y_train, y_test = processing.load_data_split()
-        model, opt = create_model(input_shape)
+        model, opt = create_model_six_conv(X_train.shape[1:])
         model.compile(loss='categorical_crossentropy',
                 optimizer=opt,
                 metrics=['accuracy'])
