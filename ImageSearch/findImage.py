@@ -9,7 +9,7 @@ fe = FeatureExtractor()
 img = Image.open('/Users/ravirane/Desktop/GMU/DAEN690/search/characters/abraham_grampa_simpson/pic_0000.jpg')
 query = fe.extract(img)
 # print('print', query)
-with open('/Users/ravirane/Desktop/GMU/DAEN690/search/static/features.pkl', 'rb') as f_in:
+with open('/Users/ravirane/Desktop/GMU/DAEN690/subdata/features.pkl', 'rb') as f_in:
     features = pickle.load(f_in)
 # Iterating over values 
 featureList = []
