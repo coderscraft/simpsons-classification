@@ -18,8 +18,7 @@ parser = OptionParser()
 parser.add_option("-p", "--path", dest="train_path", help="Path to training data.")
 
 (options, args) = parser.parse_args()
-options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/search/'
-# options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/data/the-simpsons-characters-dataset/'
+# options.train_path = '/Users/ravirane/Desktop/GMU/DAEN690/search/'
 os.chdir(options.train_path)
 if not options.train_path:   # if filename is not given
     parser.error('Error: path to training data must be specified. Pass --path to command line')
