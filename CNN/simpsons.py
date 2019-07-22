@@ -15,10 +15,11 @@ from optparse import OptionParser
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 import pickle
+from keras.callbacks import EarlyStopping
+from keras.callbacks import ModelCheckpoint
 
-
-model_path = './cnn6_model.hdf5'
-train_history = "./cnn6_history.pickle"
+model_path = './cnn_model.hdf5'
+train_history = "./cnn_history.pickle"
 
 def create_model(input_shape):
     """
@@ -79,7 +80,7 @@ def create_model_six_conv(input_shape):
     model.add(Dropout(0.2))
 
     model.add(Flatten())
-    model.add(Dense(1024))
+    model.add(Dense(1024, name ='feature_dense'))
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='softmax'))
@@ -105,12 +106,22 @@ def lr_schedule(epoch):
 def run_model():
         X_train, X_test, y_train, y_test = processing.load_data_split()
         model, opt = create_model_six_conv(X_train.shape[1:])
+
+        early_stops = EarlyStopping(patience=5, monitor='val_auc')
+        filepath='./model_checkpnt.hdf5'
+        ckpt_callback = ModelCheckpoint(filepath,
+                                 monitor='val_loss', 
+                                 verbose=1, 
+                                 save_best_only=True, 
+                                 mode='auto')
+
         model.compile(loss='categorical_crossentropy',
                 optimizer=opt,
                 metrics=['accuracy'])
 
         hist = model.fit(X_train, y_train,
                 batch_size=batch_size,
+                callbacks=[early_stops,ckpt_callback],
                 epochs=epochs,
                 verbose=1,
                 validation_data=(X_test, y_test),
