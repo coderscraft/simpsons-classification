@@ -11,16 +11,16 @@
 
 ## Deal with output and errors.  Separate into 2 files (not the default).
 ## NOTE: %u=userID, %x=jobName, %N=nodeID, %j=jobID, %A=arrayMain, %a=arraySub
-#SBATCH -o /scratch/%u/%x-%N-%j.out    # Output file
-#SBATCH -e /scratch/%u/%x-%N-%j.err    # Error file
+#SBATCH -o /scratch/%u/CNN/%x-%N-%j.out    # Output file
+#SBATCH -e /scratch/%u/CNN/%x-%N-%j.err    # Error file
 #SBATCH --mail-type=BEGIN,END,FAIL     # NONE,BEGIN,END,FAIL,REQUEUE,ALL,...
 #SBATCH --mail-user=rrane@gmu.edu   # Put your GMU email address here
 
 ## Specifying an upper limit on needed resources will improve your scheduling
 ## priority, but if you exceed these values, your job will be terminated.
 ## Check your "Job Ended" emails for actual resource usage info.
-#SBATCH --mem=5G          # Total memory needed for your job (suffixes: K,M,G,T)
-#SBATCH --time=0-00:60    # Total time needed for your job: Days-Hours:Minutes
+#SBATCH --mem=10G          # Total memory needed for your job (suffixes: K,M,G,T)
+#SBATCH --time=0-03:00    # Total time needed for your job: Days-Hours:Minutes
 
 ## These options are more useful when running parallel and array jobs
 #SBATCH --nodes 1         # Number of nodes (computers) to reserve
